@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -38,12 +43,12 @@ public class FakeProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProduct() {
+    public Page<Product> getAllProduct(int pageNumber,int pageSize) {
 
         FakeProductDto[] allFakeProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products",
                 FakeProductDto[].class);
         if (allFakeProductDtos == null) {
-            return List.of(); // or throw exception
+            return null; // or throw exception
         }
         // TODO Auto-generated method stub
         List<Product> allProducts = new ArrayList<>();
@@ -51,8 +56,13 @@ public class FakeProductService implements ProductService {
         for (FakeProductDto fakeProductDto : allFakeProductDtos) {
             allProducts.add(convertFakeProductToProduct(fakeProductDto));
         }
+      Sort sort = Sort.by(
+        Sort.Order.asc("price"),
+        Sort.Order.desc("title")
+);
 
-        return allProducts;
+Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+return new PageImpl<>(allProducts, pageable, allProducts.size());
 
         // throw new UnsupportedOperationException("Unimplemented method
         // 'getAllProduct'");

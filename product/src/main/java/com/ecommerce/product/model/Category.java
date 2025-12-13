@@ -15,8 +15,8 @@ import lombok.Setter;
 public class Category extends Base {
     private String name;
     private String description;
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
-    List<Product>product;
+    // @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    // List<Product>product;
     
 
     /*

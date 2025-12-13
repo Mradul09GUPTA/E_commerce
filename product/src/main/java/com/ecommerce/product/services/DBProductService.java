@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.product.exception.ProductNotFound;
@@ -26,10 +30,10 @@ public class DBProductService implements ProductService  {
     }
 
     @Override
-    public List<Product> getAllProduct() {
+    public Page<Product> getAllProduct(int pageNumber,int pageSize) {
         // TODO Auto-generated method stub
        
-       List<Product> products = productRepository.findAll();
+       
        List<ProductWithTitleAndId> productWithTitleAndIds = productRepository.randomSearchMethodForProduct();
        for(ProductWithTitleAndId productWithTitleAndId :productWithTitleAndIds){
         System.out.println("id "+productWithTitleAndId.getId() +" and title " +productWithTitleAndId.getTitle());
@@ -41,6 +45,19 @@ public class DBProductService implements ProductService  {
         }
        Product productoneid = productRepository.findonlyoneproduct((long) 1).get();
        System.out.println(productoneid.getTitle());
+      
+       //page
+      
+
+      Sort sort = Sort.by("price").ascending().and(Sort.by("title")).descending();
+
+       Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
+
+      Page<Product> products = productRepository.findAll(pageable);
+
+
+
+
        return products;
        
        
