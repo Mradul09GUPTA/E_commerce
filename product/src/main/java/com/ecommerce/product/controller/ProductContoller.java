@@ -3,13 +3,11 @@ package com.ecommerce.product.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ecommerce.product.dto.FakeProductDto;
 import com.ecommerce.product.exception.ProductNotFound;
 import com.ecommerce.product.model.Product;
 import com.ecommerce.product.services.ProductService;
 
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

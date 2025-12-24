@@ -2,12 +2,12 @@ package com.ecommerce.product.controllerAdvice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ecommerce.product.exception.ProductNotFound;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalException {
     @ExceptionHandler(ProductNotFound.class)
      public ResponseEntity<String> handleProductNotFoundExceptionException(ProductNotFound ex) {
