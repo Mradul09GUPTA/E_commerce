@@ -62,17 +62,16 @@ public class ProductContoller {
   
 
     @PutMapping("/{id}")
-   public Product replaceProduct(@PathVariable("id") Long id,@RequestBody Product product) throws ProductNotFound{
+   public ResponseEntity<ProductDto> replaceProduct(@PathVariable("id") Long id,@RequestBody Product product) throws ProductNotFound{
 
-      
-        return productService.replaceProduct(id,product);
+        return new ResponseEntity<>(from(productService.replaceProduct(id,product)), HttpStatus.OK);
    }
 
    @PostMapping("")
-   public Product insertProduct(@RequestBody Product product) {
+   public ResponseEntity<ProductDto> insertProduct(@RequestBody Product product) {
        //TODO: process POST request
-       
-       return productService.insertProduct(product);
+
+       return new ResponseEntity<>(from(productService.insertProduct(product)), HttpStatus.OK);
    }
    private ProductDto from (Product product) {
        ProductDto productDto = new ProductDto();
