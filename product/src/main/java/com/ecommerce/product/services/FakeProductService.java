@@ -15,7 +15,7 @@ import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
-import com.ecommerce.product.dto.FakeProductDto;
+import com.ecommerce.product.dtos.FakeProductDto;
 import com.ecommerce.product.exception.ProductNotFound;
 import com.ecommerce.product.model.Category;
 import com.ecommerce.product.model.Product;
