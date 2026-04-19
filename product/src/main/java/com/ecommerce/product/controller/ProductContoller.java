@@ -1,5 +1,6 @@
 package com.ecommerce.product.controller;
 
+import com.ecommerce.product.dtos.ProductDto;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,10 +35,11 @@ public class ProductContoller {
 
 
    @GetMapping("/{id}")
-   public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFound {
+   public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long id) throws ProductNotFound {
+       Product product=productService.getProductByID(id);
+       ProductDto productDto= from(product);
 
-      ResponseEntity<Product> response = new ResponseEntity<>(
-        productService.getProductByID(id),
+      ResponseEntity<ProductDto> response = new ResponseEntity<>(productDto,
         HttpStatus.OK
        );
 
@@ -72,7 +74,17 @@ public class ProductContoller {
        
        return productService.insertProduct(product);
    }
-   
+   private ProductDto from (Product product) {
+       ProductDto productDto = new ProductDto();
+       productDto.setId(product.getId());
+       productDto.setTitle(product.getTitle());
+       productDto.setPrice(product.getPrice());
+       productDto.setCategoryName(product.getCategory().getName());
+       productDto.setCategoryDescription(product.getCategory().getDescription());
+       return productDto;
+   }
+
+
    
     
     
