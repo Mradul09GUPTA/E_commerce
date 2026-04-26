@@ -2,6 +2,7 @@ package com.ecommerce.product.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ import com.ecommerce.product.exception.ProductNotFound;
 import com.ecommerce.product.model.Category;
 import com.ecommerce.product.model.Product;
 
-@Service("FakeProductService")
+@Service
 public class FakeProductService implements ProductService {
     @Autowired
     RestTemplate restTemplate;
@@ -32,8 +33,8 @@ public class FakeProductService implements ProductService {
         FakeProductDto fakeProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id,
                 FakeProductDto.class);
 
-        if (fakeProductDto == null) {
-            throw new ProductNotFound("Product Not Found" + id);
+        if (fakeProductDto==null) {
+            throw new ProductNotFound("Product Not Found " + id);
         }
         Product product = convertFakeProductToProduct(fakeProductDto);
 

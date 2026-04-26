@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/product")
 public class ProductContoller {
     @Autowired
-    @Qualifier("DBProductService")
+    //@Qualifier("DBProductService")
     ProductService productService;
 
 
