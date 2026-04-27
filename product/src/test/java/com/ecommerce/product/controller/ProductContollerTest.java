@@ -67,7 +67,7 @@ class ProductContollerTest {
     }
 
     @Test
-    void getproductById_InvalidProductId_ReturnProduct() throws Exception {
+    void getproductById_InvalidProductId_throwException() throws Exception {
         when(productService.getProductByID(1L)).thenThrow(new ProductNotFound("Product not found"));
 
         mockMvc.perform(get("/product/1"))
