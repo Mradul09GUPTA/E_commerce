@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.UUID;
+
 
 @MappedSuperclass
 @Getter
@@ -13,8 +13,8 @@ public abstract class BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date createdAt;
-    private Date lastUpdatedAt;
+    private Date createdAt = new Date();
+    private Date lastUpdatedAt = new Date();
     private State state;
 }
 

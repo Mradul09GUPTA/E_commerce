@@ -1,5 +1,6 @@
 package com.example.userservices.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.Getter;
@@ -13,10 +14,10 @@ import java.util.List;
 @Entity
 public class User extends BaseModel {
     private String name;
-    private String emailId;
+    private String email;
     private String password;
     private String phoneNumber;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 }
 
