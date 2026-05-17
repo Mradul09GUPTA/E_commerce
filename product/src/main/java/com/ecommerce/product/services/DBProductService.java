@@ -1,16 +1,20 @@
 package com.ecommerce.product.services;
 
+import com.ecommerce.product.dtos.UserDto;
 import com.ecommerce.product.exception.ProductNotFound;
+import com.ecommerce.product.exception.ProductsNotAvaible;
 import com.ecommerce.product.model.Product;
 import com.ecommerce.product.projection.ProductWithTitleAndId;
 import com.ecommerce.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -19,7 +23,8 @@ import java.util.List;
 public class DBProductService implements ProductService {
     @Autowired
     ProductRepository productRepository;
-
+    @Autowired
+    RestTemplate restTemplate;
     @Override
     public Product getProductByID(Long id) throws ProductNotFound {
         // TODO Auto-generated method stub
@@ -88,6 +93,27 @@ public class DBProductService implements ProductService {
 
         return productRepository.save(product);
         //throw new UnsupportedOperationException("Unimplemented method 'insertProduct'");
+    }
+    @Override
+    public Page<Product> getProductByUserID(String name, Long userId,int pageNumber,int pageSize) throws ProductsNotAvaible {
+
+        try {
+            UserDto user = restTemplate.getForEntity("http://userservice/users/{userId}", UserDto.class, userId).getBody();
+
+
+            List<String> role = user.getRole();
+            if (!role.contains("Default")) {
+                throw new ProductsNotAvaible("Product is not avaible for: " + user.getEmail());
+            }
+            Sort sort = Sort.by("id").ascending();
+            Pageable productPage = PageRequest.of(pageNumber, pageSize, sort);
+
+
+            return productRepository.findByTitleContainingIgnoreCase(name, productPage);
+        }
+        catch (Exception e){
+            throw new ProductsNotAvaible("Product is not avaible for you");
+        }
     }
 
 }

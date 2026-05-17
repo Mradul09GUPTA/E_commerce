@@ -1,11 +1,11 @@
 package com.ecommerce.product.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +16,8 @@ public class Product extends Base {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private Category category;
+   @OneToMany(cascade = CascadeType.ALL)
+    private List<ProductType> productTypeList;
 
 
 }

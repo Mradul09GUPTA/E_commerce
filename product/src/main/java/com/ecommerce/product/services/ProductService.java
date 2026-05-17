@@ -1,6 +1,7 @@
 package com.ecommerce.product.services;
 
 
+import com.ecommerce.product.exception.ProductsNotAvaible;
 import org.springframework.data.domain.Page;
 
 import com.ecommerce.product.exception.ProductNotFound;
@@ -14,5 +15,7 @@ public interface ProductService {
     Product replaceProduct(Long id, Product product) throws ProductNotFound;
 
     Product insertProduct(Product product);
+    Page<Product> getProductByUserID(String name, Long userId,int pageNumber,int pageSize) throws ProductsNotAvaible;
+
 
 }

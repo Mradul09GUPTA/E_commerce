@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.ecommerce.product.exception.ProductsNotAvaible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -118,6 +119,11 @@ return new PageImpl<>(allProducts, pageable, allProducts.size());
     public Product insertProduct(Product product) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'insertProduct'");
+    }
+
+    @Override
+    public Page<Product> getProductByUserID(String name, Long userId, int pageNumber, int pageSize) throws ProductsNotAvaible {
+        return null;
     }
 
 }

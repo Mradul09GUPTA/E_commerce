@@ -2,11 +2,14 @@ package com.ecommerce.product.controller;
 
 import com.ecommerce.product.dtos.ProductDto;
 import com.ecommerce.product.exception.ProductNotFound;
+import com.ecommerce.product.exception.ProductsNotAvaible;
 import com.ecommerce.product.model.Category;
 import com.ecommerce.product.model.Product;
 import com.ecommerce.product.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/product")
 public class ProductContoller {
     @Autowired
-    //@Qualifier("DBProductService")
+    @Qualifier("DBProductService")
     ProductService productService;
 
 
@@ -57,6 +60,16 @@ public class ProductContoller {
         //TODO: process POST request
         Product product = from(productdto);
         return new ResponseEntity<>(from(productService.insertProduct(product)), HttpStatus.OK);
+    }
+
+    @GetMapping("/{name}/{userId}")
+    public Page<ProductDto> getProductByUserId(@PathVariable String name,@PathVariable Long userId,@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "4") int pageSize) throws ProductsNotAvaible {
+         return  from(  productService.getProductByUserID(name,userId,pageNumber,pageSize));
+    }
+
+    public Page<ProductDto> from(Page<Product> productPage) {
+        Page<ProductDto> productDtoPage = productPage.map(product -> from(product));
+        return productDtoPage;
     }
 
     private ProductDto from(Product product) {
